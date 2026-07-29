@@ -1,9 +1,15 @@
 /* ==========================================================================
-   The Smear Lab. One stylesheet, no framework, no build step.
+   The Smear lab. One stylesheet, no framework, no build step.
 
-   Day mode is the cubehelix homage: pale page, dark red title, classic
-   blue links. Arial throughout, per house rule. Night mode is the Osees homage: black page, neon
-   ink, glowing links. Same content either way.
+   Day mode: white page, lavender title, blue headings and links, gold note
+   boxes. Night mode is the Osees homage: black page, gold ink, glowing
+   links. Same content either way. Arial throughout, per house rule, and
+   there is exactly one font stack declared in this file.
+
+   Every chromatic value comes from riley.mat and nothing else. Colour
+   roles below were assigned by measured contrast, not by eye: anything
+   carrying body text clears 4.5:1, anything used only at heading size
+   clears 3:1. If you change one, measure it.
 
    The gradient rule under the header is a real cubehelix ramp, computed
    from Green (2011) with the standard parameters (start 0.5, rotations
@@ -21,13 +27,19 @@
   --panel:    #fee098;   /* gold, for note boxes */
   --ink:      #1a1a1a;
   --dim:      #395a7d;   /* slate, 7.2:1 on white */
-  --title:    #0195c3;   /* cyan, large text only */
+  --title:    #a983b4;   /* lavender, Matt's favourite. 3.2:1, which clears
+                            the 3:1 large-text floor but only just, so keep
+                            it on the 2.1em h1 and nothing smaller. */
   --heading:  #3167d1;   /* blue, 5.3:1 */
   --link:     #3167d1;   /* blue, 5.3:1 */
   --visited:  #395a7d;   /* slate, 7.2:1 */
-  --rule:     #a983b4;   /* violet, decorative only */
+  --rule:     #a983b4;   /* lavender, decorative only */
+  --panellink:#395a7d;   /* slate. The gold panel is light enough that the
+                            ordinary blue link only reaches 4.1:1 on it. */
   --glow:     none;
-  --navmark:  #0195c3;
+  --navmark:  #395a7d;   /* slate, 7.2:1. The nav sits at 0.92em, too small
+                            for the 3:1 floor, so this needs a text-grade
+                            colour rather than an accent. */
 }
 
 html.night {
@@ -40,6 +52,7 @@ html.night {
   --link:     #fee098;   /* gold, 15.4:1 */
   --visited:  #a983b4;   /* violet, 6.2:1 */
   --rule:     #395a7d;   /* slate */
+  --panellink:#fee098;   /* gold, 12.8:1 on the dark panel */
   --glow:     0 0 6px currentColor;
   --navmark:  #fee098;
 }
@@ -57,6 +70,7 @@ html.night {
     --link:     #fee098;
     --visited:  #a983b4;
     --rule:     #395a7d;
+    --panellink:#fee098;
     --glow:     0 0 6px currentColor;
     --navmark:  #fee098;
   }
@@ -301,6 +315,7 @@ ol.pubs b { color: var(--ink); }
   padding: 0.6em 1em;
   margin: 1.2em 0;
 }
+.note a, .note a:visited { color: var(--panellink); }
 .note p:first-child { margin-top: 0.3em; }
 .note p:last-child  { margin-bottom: 0.3em; }
 
@@ -330,6 +345,61 @@ figcaption {
   font-size: 0.9em;
   letter-spacing: 0.03em;
   color: var(--dim);
+}
+
+/* ---- affiliation logos ------------------------------------------------- */
+
+/* The UO mark is the official file from UO's own web design framework, the
+   same one ion.uoregon.edu serves. It ships white for use on the UO green
+   bar, so it is set near-black here and inverted for night mode. That is a
+   one-colour treatment, not a redraw. The ION mark is Matt's own file,
+   which ships white-on-opaque-black; it was converted to black artwork on
+   a transparent ground so it sits on the page rather than in a box, and it
+   inverts for night mode the same way. Neither logo was redrawn.
+   To replace either, drop a new file at static/media/uo-logo.svg or
+   static/media/ion-logo.png and this all keeps working. */
+
+.affiliations {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4em;
+  margin-bottom: 1.4em;
+  padding-top: 1.4em;
+  border-top: 1px solid var(--rule);
+}
+.affiliations a { text-decoration: none; }
+.affiliations .uo img {
+  display: block;
+  width: 190px;
+  height: auto;
+}
+html.night .affiliations .uo img { filter: invert(1); }
+@media (prefers-color-scheme: dark) {
+  html.auto .affiliations .uo img { filter: invert(1); }
+}
+.affiliations .ion {
+  border-left: 1px solid var(--rule);
+  padding-left: 1.4em;
+}
+.affiliations .ion img {
+  display: block;
+  width: 74px;
+  height: auto;
+}
+html.night .affiliations .ion img { filter: invert(1); }
+@media (prefers-color-scheme: dark) {
+  html.auto .affiliations .ion img { filter: invert(1); }
+}
+
+@media (max-width: 34em) {
+  .affiliations { flex-direction: column; gap: 0.9em; }
+  .affiliations .ion {
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+    padding-left: 0;
+    padding-top: 0.9em;
+  }
 }
 
 /* ---- footer ------------------------------------------------------------ */

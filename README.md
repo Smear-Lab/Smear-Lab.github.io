@@ -1,4 +1,4 @@
-# Smear Lab site
+# Smear lab site
 
 Live at <https://smear-lab.github.io/>. GitHub Pages serves the `main` branch
 from the repository root, so whatever is committed to `main` is the site.
@@ -20,6 +20,27 @@ no `npm install`. To change a word, open the file and change the word.
 `static/media/` holds the images. The other files under `static/` are leftovers
 from the previous React version of the site and nothing references them now;
 they can be deleted whenever.
+
+## Logos and image sources
+
+Both affiliation logos sit in the footer of every page and are handled the same
+way: black artwork on a transparent ground, inverted by CSS for night mode.
+
+    static/media/uo-logo.svg    UO's own file, the one ion.uoregon.edu serves.
+                                It ships white for the UO green bar, so the
+                                fill was changed to near-black. That is a
+                                one-colour treatment, not a redraw.
+    static/media/ion-logo.png   From Matt's ion_logo.png, which is white
+                                artwork on opaque black. Converted so the
+                                black box becomes transparent.
+
+To replace either, drop a new file at the same path and the CSS keeps working.
+If UO Communications asks for a specific approved lockup, that is the swap.
+
+Originals kept alongside: `riley.mat` (the palette) and `ion_logo.png` are
+committed, since they record where things came from and are tiny.
+`matt_wyoming.png` is gitignored at 7.5 MB; the 64 KB crop the site uses is
+`static/media/matt_wyoming.jpg`.
 
 ## The one thing to watch
 
@@ -53,16 +74,21 @@ Every chromatic value comes from `riley.mat`, which holds seven colours:
     #0195c3 cyan      #a983b4 muted violet   #3167d1 blue
     #c990d4 orchid    #6bb36a green          #395a7d slate    #fee098 gold
 
-Day mode is white ground, cyan title, blue headings and links, slate for
-secondary text, gold note boxes. Night mode is black ground, gold title and
-links, cyan headings, violet secondary text. The green is deliberately unused.
-Nothing outside those seven should appear; the neutral white, near-black and
-the colour roles are all declared as custom properties at the top of
-`style.css`, so changing the scheme means editing that block and nothing else.
+Day mode is white ground, lavender title, blue headings and links, slate for
+secondary text and the current-page nav marker, gold note boxes. Night mode is
+black ground, gold title and links, cyan headings, violet secondary text. The
+green is deliberately unused.
 
-Contrast was checked rather than assumed. Every colour carrying body text
-clears 4.5:1 against its background, and the two used only for large headings
-clear 3:1.
+The lavender is Matt's pick for the day title. It measures 3.2:1 on white,
+which clears the 3:1 floor for large text but not the 4.5:1 floor for
+everything else, so it belongs on the 2.1em h1 and nowhere smaller. Links
+inside the gold note boxes have their own colour (`--panellink`) because the
+ordinary blue only reaches 4.1:1 against that background.
+
+Nothing outside those seven should appear. The neutral grounds and every
+colour role are declared as custom properties at the top of `style.css`, so
+changing the scheme means editing that one block. Contrast was measured rather
+than assumed, and if you change a colour, measure it again.
 
 The button in the header switches modes and remembers the choice in
 `localStorage`; a first-time visitor gets whatever their operating system

@@ -1,2 +1,9 @@
 .DS_Store
 .claude/
+
+# The full-resolution original of Matt's photo, 7.5 MB. The web version that
+# the site actually uses is static/media/matt_wyoming.jpg, 64 KB. There is no
+# reason to publish the original through GitHub Pages, so it stays local. The
+# smaller sources (riley.mat, ion_logo.png) are committed, since they are the
+# records of where the palette and the logo came from and they cost nothing.
+matt_wyoming.png
