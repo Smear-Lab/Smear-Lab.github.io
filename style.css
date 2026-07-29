@@ -11,48 +11,54 @@
    ========================================================================== */
 
 :root {
-  --bg:       #e6f7e6;
-  --panel:    #f2fdf2;
-  --ink:      #1b1b1b;
-  --dim:      #4a5a4a;
-  --title:    #8b0000;
-  --heading:  #005000;
-  --link:     #0000cc;
-  --visited:  #551a8b;
-  --rule:     #7a9a7a;
+  /* Palette: riley.mat, Matt's file. Only these seven colours are used for
+     anything chromatic. Neutral white/near-black grounds are not "colours"
+     in that sense and stay neutral.
+       #0195c3 cyan     #a983b4 muted violet   #3167d1 blue
+       #c990d4 orchid   #6bb36a green          #395a7d slate   #fee098 gold
+     The green is deliberately unused. Matt does not want green in the UI. */
+  --bg:       #ffffff;
+  --panel:    #fee098;   /* gold, for note boxes */
+  --ink:      #1a1a1a;
+  --dim:      #395a7d;   /* slate, 7.2:1 on white */
+  --title:    #0195c3;   /* cyan, large text only */
+  --heading:  #3167d1;   /* blue, 5.3:1 */
+  --link:     #3167d1;   /* blue, 5.3:1 */
+  --visited:  #395a7d;   /* slate, 7.2:1 */
+  --rule:     #a983b4;   /* violet, decorative only */
   --glow:     none;
-  --navmark:  #8b0000;
+  --navmark:  #0195c3;
 }
 
 html.night {
-  --bg:       #050505;
-  --panel:    #0d120d;
-  --ink:      #d9f2ef;
-  --dim:      #8fae9c;
-  --title:    #52ff6e;
-  --heading:  #ff6ec7;
-  --link:     #ffa040;
-  --visited:  #c77dff;
-  --rule:     #2a4a2a;
+  --bg:       #0a0a0a;
+  --panel:    #16202b;
+  --ink:      #ececec;
+  --dim:      #a983b4;   /* violet, 6.2:1 on black */
+  --title:    #fee098;   /* gold, 15.4:1 */
+  --heading:  #0195c3;   /* cyan, 5.7:1 */
+  --link:     #fee098;   /* gold, 15.4:1 */
+  --visited:  #a983b4;   /* violet, 6.2:1 */
+  --rule:     #395a7d;   /* slate */
   --glow:     0 0 6px currentColor;
-  --navmark:  #52ff6e;
+  --navmark:  #fee098;
 }
 
 /* Respect the OS preference on a first visit. A stored choice wins over
    this, applied by the script in each page's <head>. */
 @media (prefers-color-scheme: dark) {
   html.auto {
-    --bg:       #050505;
-    --panel:    #0d120d;
-    --ink:      #d9f2ef;
-    --dim:      #8fae9c;
-    --title:    #52ff6e;
-    --heading:  #ff6ec7;
-    --link:     #ffa040;
-    --visited:  #c77dff;
-    --rule:     #2a4a2a;
+    --bg:       #0a0a0a;
+    --panel:    #16202b;
+    --ink:      #ececec;
+    --dim:      #a983b4;
+    --title:    #fee098;
+    --heading:  #0195c3;
+    --link:     #fee098;
+    --visited:  #a983b4;
+    --rule:     #395a7d;
     --glow:     0 0 6px currentColor;
-    --navmark:  #52ff6e;
+    --navmark:  #fee098;
   }
 }
 
@@ -149,7 +155,13 @@ nav.main .sep { color: var(--rule); }
 }
 #mode:hover { text-shadow: var(--glow); }
 
-/* ---- the cubehelix rule ------------------------------------------------ */
+/* ---- the rule under the masthead --------------------------------------- */
+
+/* NOTE, Matt: this is the one place green and pink survive, because a
+   cubehelix ramp cycles through both by construction. That is the whole
+   point of the scheme and it is why it is cited. If you want them gone
+   here too, delete the .cube-rule background below and uncomment the
+   riley ramp underneath it, then reword the caption in all seven pages. */
 
 .cube-rule {
   border: 0;
@@ -164,9 +176,19 @@ nav.main .sep { color: var(--rule); }
     #c2d8f3 83.3%, #cae7f0 87.5%, #d9f2ef 91.7%, #ebf9f3 95.8%,
     #ffffff 100%);
 }
-html.night .cube-rule { box-shadow: 0 0 12px #52ff6e55, 0 0 4px #ff6ec755; }
+
+/* The alternative: riley.mat sorted by luminance, green omitted. Swap the
+   background above for this one and no green or pink appears anywhere.
+.cube-rule {
+  background: linear-gradient(to right,
+    #395a7d 0%, #3167d1 20%, #0195c3 40%,
+    #a983b4 60%, #c990d4 80%, #fee098 100%);
+}
+*/
+
+html.night .cube-rule { box-shadow: 0 0 14px #fee09855, 0 0 4px #0195c355; }
 @media (prefers-color-scheme: dark) {
-  html.auto .cube-rule { box-shadow: 0 0 12px #52ff6e55, 0 0 4px #ff6ec755; }
+  html.auto .cube-rule { box-shadow: 0 0 14px #fee09855, 0 0 4px #0195c355; }
 }
 
 .cube-caption {
@@ -202,7 +224,7 @@ h3 {
 a { color: var(--link); }
 a:visited { color: var(--visited); }
 a:hover { text-shadow: var(--glow); }
-html:not(.night) a:hover { color: #c00070; }
+html:not(.night) a:hover { color: #0195c3; }
 
 ul.research { padding-left: 1.4em; }
 ul.research li { margin-bottom: 0.7em; }
@@ -320,26 +342,6 @@ footer {
 }
 footer nav { margin-bottom: 0.5em; letter-spacing: 0.06em; }
 
-/* ---- stars, night only ------------------------------------------------- */
-
-.stars { display: none; }
-html.night .stars { display: block; }
-@media (prefers-color-scheme: dark) {
-  html.auto .stars { display: block; }
-}
-.stars span {
-  position: fixed;
-  color: #c7ff9e;
-  font-size: 12px;
-  pointer-events: none;
-  animation: twinkle 2.6s ease-in-out infinite;
-  text-shadow: 0 0 6px #52ff6e;
-}
-@keyframes twinkle {
-  0%, 100% { opacity: 0.15; transform: scale(0.8); }
-  50%      { opacity: 0.9;  transform: scale(1.15); }
-}
-
 /* ---- narrow screens ---------------------------------------------------- */
 
 @media (max-width: 34em) {
@@ -350,17 +352,12 @@ html.night .stars { display: block; }
   nav.main a { display: inline-block; margin: 0 0.35em; }
   .person { flex-direction: column; gap: 0.5em; }
   .person img { width: 130px; height: 130px; }
-  .stars { display: none !important; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stars span { animation: none; }
 }
 
 /* ---- print ------------------------------------------------------------- */
 
 @media print {
-  #mode, .stars, nav.main { display: none; }
+  #mode, nav.main { display: none; }
   body { max-width: none; color: #000; background: #fff; }
   a { color: #000; text-decoration: underline; }
 }

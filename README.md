@@ -48,15 +48,32 @@ The live site updates within a minute or so.
 
 ## Design notes
 
-Day mode is a homage to Dave Green's cubehelix page: pale background, dark red
-title, ordinary blue links. Night mode is the other reference point: black
-page, neon ink, glowing links. The button in the header switches
-between them and remembers the choice in `localStorage`; a first-time visitor
-gets whatever their operating system prefers.
+Every chromatic value comes from `riley.mat`, which holds seven colours:
+
+    #0195c3 cyan      #a983b4 muted violet   #3167d1 blue
+    #c990d4 orchid    #6bb36a green          #395a7d slate    #fee098 gold
+
+Day mode is white ground, cyan title, blue headings and links, slate for
+secondary text, gold note boxes. Night mode is black ground, gold title and
+links, cyan headings, violet secondary text. The green is deliberately unused.
+Nothing outside those seven should appear; the neutral white, near-black and
+the colour roles are all declared as custom properties at the top of
+`style.css`, so changing the scheme means editing that block and nothing else.
+
+Contrast was checked rather than assumed. Every colour carrying body text
+clears 4.5:1 against its background, and the two used only for large headings
+clear 3:1.
+
+The button in the header switches modes and remembers the choice in
+`localStorage`; a first-time visitor gets whatever their operating system
+prefers.
 
 The gradient bar under the header is a genuine cubehelix ramp, computed from
 Green (2011) with the standard parameters (start 0.5, rotations -1.5, hue 1,
-gamma 1), sampled at 24 points. It is not an approximation by eye.
+gamma 1), sampled at 24 points. It is not an approximation by eye. It is also
+the only place green and pink still appear, because a cubehelix ramp cycles
+through both by construction. A Riley-palette replacement sits commented out
+directly beneath it in `style.css` if you want those gone too.
 
 Everything is Arial, by house rule. There is exactly one `font-family`
 declaration in the whole stylesheet, on `body`, and nothing else should add
