@@ -72,8 +72,28 @@ sanitised: inline styles are stripped, disallowed tags are unwrapped, and the
 comments in the files are preserved. A save with no edits leaves all seven
 pages unchanged, which is checked rather than assumed.
 
+**Images.** Drag a photo onto the page to add it. Drop it on a person's entry
+and it replaces that person's photo, square-cropped to 500px; drop it anywhere
+else and it becomes a figure with a caption, capped at 1200px on the long side.
+Either way it is resized on the way in, so a 1.7 MB phone photo lands as about
+76 KB rather than being published at full size. You are asked for alt text on
+the way, which is not optional politeness: the accessibility standard UO
+applies is WCAG 2.1 AA.
+
+Click any image to get Replace, Alt text and Remove.
+
+**Site-wide.** The masthead glyphs, the tagline and the affiliation line are
+identical on all seven pages, so they sit outside the editable area on purpose.
+The "Site-wide" button edits all seven at once, including the meta description
+that repeats the tagline.
+
 Undo is git: `git diff` shows what a save did, `git checkout -- <file>`
 discards it.
+
+**What the editor still does not reach**, by design: the nav labels, the
+colour-bar caption, the footer logos, and anything in `style.css`. Those are
+either structural or shared in ways that want a deliberate edit across all
+seven files.
 
 To preview without the editing chrome:
 
