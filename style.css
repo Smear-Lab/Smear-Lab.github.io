@@ -313,6 +313,13 @@ figcaption {
   font-family: "Courier New", Courier, monospace;
 }
 
+/* a real attribution, not an unfinished line */
+.credit {
+  font-size: 0.88em;
+  color: var(--dim);
+  font-style: italic;
+}
+
 /* things still to fill in, visible on purpose */
 .todo {
   font-family: "Courier New", Courier, monospace;
