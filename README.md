@@ -94,12 +94,22 @@ The button in the header switches modes and remembers the choice in
 `localStorage`; a first-time visitor gets whatever their operating system
 prefers.
 
-The gradient bar under the header is a genuine cubehelix ramp, computed from
-Green (2011) with the standard parameters (start 0.5, rotations -1.5, hue 1,
-gamma 1), sampled at 24 points. It is not an approximation by eye. It is also
-the only place green and pink still appear, because a cubehelix ramp cycles
-through both by construction. A Riley-palette replacement sits commented out
-directly beneath it in `style.css` if you want those gone too.
+The gradient bar under the header is Matt's own ramp, from `mycubehelix.mat`:
+
+    1 - CubeHelix(256, 0.5, -1, 1.5, 1.0)
+
+The CSS stops are sampled at 25 points straight out of that file, so they are
+the colormap itself rather than something that resembles it. The formula was
+checked against the file first and reproduces it exactly.
+
+Being the inverse, it runs white to black rather than black to white. That is
+why the bar carries a hairline border: on the white page the left end would
+otherwise disappear, and on the black page the right end would. The border
+marks where the bar starts and stops without changing a colour in it.
+
+It is also the only place green and pink appear on the site, because a
+cubehelix ramp cycles through the hues by construction. That is the scheme,
+and it is a deliberate choice, not an oversight.
 
 Everything is Arial, by house rule. There is exactly one `font-family`
 declaration in the whole stylesheet, on `body`, and nothing else should add

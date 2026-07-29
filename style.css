@@ -171,34 +171,37 @@ nav.main .sep { color: var(--rule); }
 
 /* ---- the rule under the masthead --------------------------------------- */
 
-/* NOTE, Matt: this is the one place green and pink survive, because a
-   cubehelix ramp cycles through both by construction. That is the whole
-   point of the scheme and it is why it is cited. If you want them gone
-   here too, delete the .cube-rule background below and uncomment the
-   riley ramp underneath it, then reword the caption in all seven pages. */
+/* Matt's own ramp, from mycubehelix.mat:
+       1 - CubeHelix(256, 0.5, -1, 1.5, 1.0)
+   Sampled at 25 points straight out of that file. I checked the formula
+   against the file first and it reproduces it exactly, so the stops below
+   are his colormap, not a lookalike.
+
+   Being the inverse, it runs white to black rather than black to white,
+   and the raised hue (1.5 against the default 1) makes the traverse more
+   saturated. It still passes through green early and pink in the middle,
+   because a cubehelix ramp cycles through the hues by construction. That
+   is what the scheme is. Matt chose this one knowing it. */
+
+/* The hairline is not decoration. This ramp runs white to black, so on the
+   white page the left end disappears and on the black page the right end
+   does. The border shows where the bar actually starts and stops without
+   altering a single colour in it. */
 
 .cube-rule {
-  border: 0;
-  height: 9px;
+  border: 1px solid var(--rule);
+  box-sizing: border-box;
+  height: 11px;
   margin: 1.1em 0 0.2em;
   background: linear-gradient(to right,
-    #000000 0%,   #100713 4.2%,  #181028 8.3%,  #1b1d3b 12.5%,
-    #182e49 16.7%, #15414e 20.8%, #16534c 25%,   #1c6344 29.2%,
-    #2b6f39 33.3%, #437731 37.5%, #607a2f 41.7%, #817a37 45.8%,
-    #a07949 50%,   #ba7964 54.2%, #cb7c85 58.3%, #d483a7 62.5%,
-    #d490c6 66.7%, #cea0de 70.8%, #c7b3ed 75%,   #c2c6f3 79.2%,
-    #c2d8f3 83.3%, #cae7f0 87.5%, #d9f2ef 91.7%, #ebf9f3 95.8%,
-    #ffffff 100%);
+    #ffffff 0%, #ebfbe9 4.2%, #dff4d1 8.3%, #d8eab7 12.5%,
+    #d8dda1 16.7%, #ddcc8e 20.8%, #e4b882 25%, #eaa47e 29.2%,
+    #ef8f80 33.3%, #ee7b89 37.5%, #e86b94 41.7%, #da5da3 45.8%,
+    #c553af 50%, #ac4db7 54.2%, #8d49ba 58.3%, #6f48b5 62.5%,
+    #4f49a9 66.7%, #324895 70.8%, #1c477e 75%, #0a4361 79.2%,
+    #003c46 83.3%, #00312b 87.5%, #002215 91.7%, #001307 95.8%,
+    #000000 100%);
 }
-
-/* The alternative: riley.mat sorted by luminance, green omitted. Swap the
-   background above for this one and no green or pink appears anywhere.
-.cube-rule {
-  background: linear-gradient(to right,
-    #395a7d 0%, #3167d1 20%, #0195c3 40%,
-    #a983b4 60%, #c990d4 80%, #fee098 100%);
-}
-*/
 
 html.night .cube-rule { box-shadow: 0 0 14px #fee09855, 0 0 4px #0195c355; }
 @media (prefers-color-scheme: dark) {
