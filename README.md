@@ -54,7 +54,28 @@ The brackets around it are drawn by CSS, so do not type them in the HTML.
 
 ## Editing
 
-Preview locally before pushing:
+The easy way, for words rather than markup:
+
+    python3 edit.py
+
+That opens <http://localhost:8787>. Click into any text and type. What you are
+looking at is the real page with the real stylesheet, because it is the real
+page being served. Cmd+S writes it back to the HTML file. Switch pages with
+the bar at the bottom.
+
+Some deliberate limits. Only the contents of `<main>` are editable, because
+the masthead, nav and footer are duplicated across all seven pages and editing
+one copy here would silently desynchronise them. The editing chrome is
+injected into the HTTP response and never written into the files, so nothing
+about the tool can reach the live site. On save the posted markup is
+sanitised: inline styles are stripped, disallowed tags are unwrapped, and the
+comments in the files are preserved. A save with no edits leaves all seven
+pages unchanged, which is checked rather than assumed.
+
+Undo is git: `git diff` shows what a save did, `git checkout -- <file>`
+discards it.
+
+To preview without the editing chrome:
 
     python3 -m http.server 8123
 

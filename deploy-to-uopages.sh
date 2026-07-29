@@ -31,6 +31,7 @@ EXCLUDES=(
   --exclude '.claude'         --exclude '.DS_Store'
   --exclude 'README.md'       --exclude 'site-copy.md'
   --exclude 'deploy-to-uopages.sh'
+  --exclude 'edit.py'         --exclude '__pycache__'
   --exclude '*.mat'                            # riley.mat, mycubehelix.mat
   --exclude 'matt_wyoming.png' --exclude 'ion_logo.png'   # full-size originals
   --exclude 'static/js'       --exclude 'static/css'      # dead React bundle

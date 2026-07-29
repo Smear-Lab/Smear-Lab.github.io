@@ -12,3 +12,5 @@ matt_wyoming.png
 # from the HTML, which stays the source of truth, so committing it would just
 # create a second copy free to drift out of sync.
 site-copy.md
+
+__pycache__/
