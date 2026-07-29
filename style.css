@@ -1,8 +1,8 @@
 /* ==========================================================================
    The Smear Lab. One stylesheet, no framework, no build step.
 
-   Day mode is the cubehelix homage: pale page, serif, dark red title,
-   classic blue links. Night mode is the Osees homage: black page, neon
+   Day mode is the cubehelix homage: pale page, dark red title, classic
+   blue links. Arial throughout, per house rule. Night mode is the Osees homage: black page, neon
    ink, glowing links. Same content either way.
 
    The gradient rule under the header is a real cubehelix ramp, computed
@@ -20,7 +20,6 @@
   --link:     #0000cc;
   --visited:  #551a8b;
   --rule:     #7a9a7a;
-  --mouse:    #444444;
   --glow:     none;
   --navmark:  #8b0000;
 }
@@ -35,7 +34,6 @@ html.night {
   --link:     #ffa040;
   --visited:  #c77dff;
   --rule:     #2a4a2a;
-  --mouse:    #52ff6e;
   --glow:     0 0 6px currentColor;
   --navmark:  #52ff6e;
 }
@@ -53,7 +51,6 @@ html.night {
     --link:     #ffa040;
     --visited:  #c77dff;
     --rule:     #2a4a2a;
-    --mouse:    #52ff6e;
     --glow:     0 0 6px currentColor;
     --navmark:  #52ff6e;
   }
@@ -67,7 +64,7 @@ body {
   padding: 1.2em 1.2em 3em;
   background: var(--bg);
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 1.06em;
   line-height: 1.5;
 }
@@ -90,28 +87,11 @@ body {
 
 header { text-align: center; margin-bottom: 0.4em; }
 
-.mouse {
-  width: 84px;
-  height: auto;
-  fill: var(--mouse);
-  filter: var(--glow);
-  margin-bottom: 0.2em;
-}
-html.night .mouse {
-  animation: sniff 3.2s ease-in-out infinite;
-  transform-origin: 20% 100%;
-}
-@media (prefers-color-scheme: dark) {
-  html.auto .mouse {
-    animation: sniff 3.2s ease-in-out infinite;
-    transform-origin: 20% 100%;
-  }
-}
-@keyframes sniff {
-  0%, 100% { transform: rotate(0deg); }
-  12%      { transform: rotate(-4deg); }
-  24%      { transform: rotate(2deg); }
-  36%      { transform: rotate(0deg); }
+.glyphs {
+  font-size: 2.5em;
+  line-height: 1;
+  margin: 0 0 0.1em;
+  letter-spacing: 0.12em;
 }
 
 header h1 {
@@ -131,8 +111,8 @@ header h1 a:visited { color: var(--title); }
 
 nav.main {
   text-align: center;
-  font-family: "Courier New", Courier, monospace;
   font-size: 0.92em;
+  letter-spacing: 0.06em;
   margin: 0.9em 0 0;
   line-height: 2;
 }
@@ -158,8 +138,8 @@ nav.main .sep { color: var(--rule); }
 #mode {
   display: block;
   margin: 0.6em auto 0;
-  font-family: "Courier New", Courier, monospace;
   font-size: 0.82em;
+  letter-spacing: 0.06em;
   background: none;
   border: none;
   padding: 0;
@@ -192,7 +172,7 @@ html.night .cube-rule { box-shadow: 0 0 12px #52ff6e55, 0 0 4px #ff6ec755; }
 .cube-caption {
   text-align: right;
   font-size: 0.72em;
-  font-family: "Courier New", Courier, monospace;
+  letter-spacing: 0.03em;
   margin: 0 0 1.4em;
   color: var(--dim);
 }
@@ -244,8 +224,9 @@ ul.research li { margin-bottom: 0.7em; }
 }
 .person h3 { margin-top: 0; }
 .person .role {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.82em;
+  font-size: 0.78em;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
   color: var(--dim);
   display: block;
   margin-bottom: 0.35em;
@@ -258,9 +239,10 @@ ul.alumni li { margin-bottom: 0.3em; }
 /* ---- publications ------------------------------------------------------ */
 
 .pubyear {
-  font-family: "Courier New", Courier, monospace;
   color: var(--heading);
-  font-size: 1em;
+  font-size: 0.95em;
+  font-weight: bold;
+  letter-spacing: 0.14em;
   margin: 1.6em 0 0.5em;
   border-bottom: 1px solid var(--rule);
   text-shadow: var(--glow);
@@ -279,8 +261,9 @@ ol.pubs .authors { font-size: 0.95em; }
 ol.pubs .venue { font-style: italic; }
 ol.pubs b { color: var(--ink); }
 .tag {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.72em;
+  font-size: 0.7em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   border: 1px solid var(--rule);
   padding: 0 0.35em;
   margin-left: 0.3em;
@@ -310,7 +293,7 @@ figcaption {
   font-size: 0.82em;
   color: var(--dim);
   margin-top: 0.4em;
-  font-family: "Courier New", Courier, monospace;
+  letter-spacing: 0.03em;
 }
 
 /* a real attribution, not an unfinished line */
@@ -322,8 +305,8 @@ figcaption {
 
 /* things still to fill in, visible on purpose */
 .todo {
-  font-family: "Courier New", Courier, monospace;
   font-size: 0.9em;
+  letter-spacing: 0.03em;
   color: var(--dim);
 }
 
@@ -335,7 +318,7 @@ footer {
   margin-top: 2.5em;
   color: var(--dim);
 }
-footer nav { margin-bottom: 0.5em; font-family: "Courier New", Courier, monospace; }
+footer nav { margin-bottom: 0.5em; letter-spacing: 0.06em; }
 
 /* ---- stars, night only ------------------------------------------------- */
 
@@ -371,7 +354,7 @@ html.night .stars { display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.night .mouse, .stars span { animation: none; }
+  .stars span { animation: none; }
 }
 
 /* ---- print ------------------------------------------------------------- */

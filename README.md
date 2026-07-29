@@ -48,15 +48,21 @@ The live site updates within a minute or so.
 
 ## Design notes
 
-Day mode is a homage to Dave Green's cubehelix page: pale background, serif
-type, dark red title, ordinary blue links. Night mode is the other reference
-point: black page, neon ink, glowing links. The button in the header switches
+Day mode is a homage to Dave Green's cubehelix page: pale background, dark red
+title, ordinary blue links. Night mode is the other reference point: black
+page, neon ink, glowing links. The button in the header switches
 between them and remembers the choice in `localStorage`; a first-time visitor
 gets whatever their operating system prefers.
 
 The gradient bar under the header is a genuine cubehelix ramp, computed from
 Green (2011) with the standard parameters (start 0.5, rotations -1.5, hue 1,
 gamma 1), sampled at 24 points. It is not an approximation by eye.
+
+Everything is Arial, by house rule. There is exactly one `font-family`
+declaration in the whole stylesheet, on `body`, and nothing else should add
+one. Because the serif and monospace contrast is gone, small labels (nav, the
+role line under a name, publication years, tags) carry their distinction with
+letter-spacing, weight, and small caps instead.
 
 House style for anything written here: no em-dashes, sentence case, "by mice"
 rather than "in mice". Published paper titles on `publications.html` are quoted
