@@ -80,7 +80,12 @@ Either way it is resized on the way in, so a 1.7 MB phone photo lands as about
 the way, which is not optional politeness: the accessibility standard UO
 applies is WCAG 2.1 AA.
 
-Click any image to get Replace, Alt text and Remove.
+An image lands **where you drop it**, between the blocks you dropped it
+between, not at the end of the page.
+
+Click any image for its toolbar: move up or down, place it left (text wraps
+right), right, or on its own line, size it small, medium or large, replace it,
+edit the alt text, or remove it.
 
 **Site-wide.** The masthead glyphs, the tagline and the affiliation line are
 identical on all seven pages, so they sit outside the editable area on purpose.

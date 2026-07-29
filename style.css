@@ -208,6 +208,28 @@ html.night .cube-rule { box-shadow: 0 0 14px #fee09855, 0 0 4px #0195c355; }
   html.auto .cube-rule { box-shadow: 0 0 14px #fee09855, 0 0 4px #0195c355; }
 }
 
+/* The masthead strip when it holds an image instead of the ramp. Same slot,
+   same margins, so the two are interchangeable. The height is fixed and the
+   image is cropped to it rather than scaled, because the slot is a band
+   across the page and the image has to earn its place at that height. If a
+   picture needs more room to read, raise this and check both modes. */
+.banner {
+  display: block;
+  width: 100%;
+  height: 96px;
+  object-fit: cover;
+  border: 1px solid var(--rule);
+  box-sizing: border-box;
+  margin: 1.1em 0 0.2em;
+}
+html.night .banner { box-shadow: 0 0 14px #fee09833; }
+@media (prefers-color-scheme: dark) {
+  html.auto .banner { box-shadow: 0 0 14px #fee09833; }
+}
+@media (max-width: 34em) {
+  .banner { height: 64px; }
+}
+
 .cube-caption {
   text-align: right;
   font-size: 0.72em;
@@ -328,6 +350,28 @@ figure img {
   max-width: min(100%, 24em);
   height: auto;
   border: 1px solid var(--rule);
+}
+
+/* Placement and size for figures, set from the editor's image toolbar.
+   Sizes are in em so a figure keeps its proportion to the text if the base
+   size ever changes. */
+figure.fig-left  { float: left;  margin: 0.3em 1.4em 0.8em 0; }
+figure.fig-right { float: right; margin: 0.3em 0 0.8em 1.4em; }
+figure.fig-wide  { float: none;  clear: both; }
+
+figure.fig-s img { max-width: min(100%, 11em); }
+figure.fig-m img { max-width: min(100%, 20em); }
+figure.fig-l img { max-width: 100%; }
+figure.fig-l { width: 100%; }
+
+/* floats must not escape their section */
+main::after, .note::after { content: ""; display: table; clear: both; }
+hr.plain { clear: both; }
+
+@media (max-width: 34em) {
+  /* one narrow column: floating a figure beside text stops helping */
+  figure.fig-left, figure.fig-right { float: none; margin: 1.4em 0; }
+  figure.fig-s img, figure.fig-m img { max-width: 100%; }
 }
 figcaption {
   font-size: 0.82em;

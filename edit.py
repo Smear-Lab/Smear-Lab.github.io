@@ -188,7 +188,12 @@ def save_image(filename, raw, mode):
         or im.mode in ("RGBA", "LA")
     before = len(raw)
 
-    if mode == "portrait":
+    if mode == "banner":
+        # The masthead strip is full width and short. Keep plenty of width so
+        # it stays sharp on a wide retina screen; the CSS crops the height.
+        im = im.convert("RGBA" if has_alpha else "RGB")
+        im.thumbnail((2400, 2400), Image.LANCZOS)
+    elif mode == "portrait":
         im = im.convert("RGBA" if has_alpha else "RGB")
         w, h = im.size
         side = min(w, h)
@@ -199,15 +204,28 @@ def save_image(filename, raw, mode):
         im = im.convert("RGBA" if has_alpha else "RGB")
         im.thumbnail((1200, 1200), Image.LANCZOS)
 
-    buf = io.BytesIO()
+    # Encode both ways and keep whichever is smaller, rather than assuming.
+    # Photographs compress far better as JPEG; plots, rasters and anything
+    # with flat colour and sharp edges compress better as PNG, and JPEG also
+    # puts visible artefacts around thin lines and text. A scientific figure
+    # is usually the second kind, so guessing by file extension gets it
+    # backwards exactly when it matters.
+    png = io.BytesIO()
+    im.save(png, "PNG", optimize=True)
     if has_alpha:
-        im.save(buf, "PNG", optimize=True)
-        path = unique(base, ".png")
+        best, ext = png.getvalue(), ".png"      # JPEG cannot carry alpha
     else:
-        im.save(buf, "JPEG", quality=86, optimize=True, progressive=True)
-        path = unique(base, ".jpg")
-    path.write_bytes(buf.getvalue())
-    note = f"{before // 1024} KB to {len(buf.getvalue()) // 1024} KB"
+        jpg = io.BytesIO()
+        im.convert("RGB").save(jpg, "JPEG", quality=88, optimize=True,
+                               progressive=True)
+        if len(jpg.getvalue()) <= len(png.getvalue()):
+            best, ext = jpg.getvalue(), ".jpg"
+        else:
+            best, ext = png.getvalue(), ".png"
+
+    path = unique(base, ext)
+    path.write_bytes(best)
+    note = f"{before // 1024} KB to {len(best) // 1024} KB as {ext[1:].upper()}"
     return rel(path), note
 
 
@@ -232,7 +250,49 @@ SHARED = {
     "glyphs": (re.compile(r'(<p class="glyphs" aria-hidden="true">)(.*?)(</p>)'), None),
     "tagline": (re.compile(r'(<p class="tagline">)(.*?)(</p>)'), None),
     "affil": (re.compile(r'(<p class="affil">)(.*?)(</p>)'), None),
+    "caption": (re.compile(r'(<p class="cube-caption">)(.*?)(</p>)'), None),
 }
+
+# The strip under the masthead is either the cubehelix ramp or an image.
+# Both forms are matched so it can be swapped back and forth.
+BANNER_RE = re.compile(r'<hr class="cube-rule">|<img class="banner"[^>]*>')
+
+
+def set_banner(src, alt):
+    """Put an image in the masthead strip on all seven pages."""
+    esc = alt.replace('"', "&quot;")
+    tag = f'<img class="banner" src="{src}" alt="{esc}">'
+    return _swap_banner(tag)
+
+
+def restore_ramp():
+    return _swap_banner('<hr class="cube-rule">')
+
+
+def _swap_banner(tag):
+    changed = []
+    for page in PAGES:
+        f = ROOT / page
+        s = f.read_text(encoding="utf-8")
+        new = BANNER_RE.sub(lambda m: tag, s, count=1)
+        if new != s:
+            f.write_text(new, encoding="utf-8")
+            changed.append(page)
+    return changed
+
+
+def read_banner():
+    s = (ROOT / "index.html").read_text(encoding="utf-8")
+    m = BANNER_RE.search(s)
+    if not m:
+        return {"kind": "none", "src": "", "alt": ""}
+    if m.group(0).startswith("<hr"):
+        return {"kind": "ramp", "src": "", "alt": ""}
+    src = re.search(r'src="([^"]*)"', m.group(0))
+    alt = re.search(r'alt="([^"]*)"', m.group(0))
+    return {"kind": "image",
+            "src": src.group(1) if src else "",
+            "alt": alt.group(1) if alt else ""}
 
 
 def read_shared():
@@ -299,6 +359,7 @@ EDITOR = """
   #__panel label { font-size: 12px; opacity: .8; margin-top: 6px; }
   #__panel input { font: 14px Arial, sans-serif; padding: 5px;
     background: #1e1e1e; color: #eee; border: 1px solid #555; border-radius: 3px; }
+  #__tools .gap { width: 1px; background: #444; margin: 0 2px; }
   #__tools button, #__panel button { font: 12px Arial, sans-serif;
     padding: 4px 9px; cursor: pointer; border-radius: 3px;
     border: 1px solid #555; background: #2a2a2a; color: #eee; }
@@ -306,8 +367,19 @@ EDITOR = """
 </style>
 <div id="__drop">drop to add the image here</div>
 <div id="__tools">
+  <button id="__t-up" title="move up">&#9650;</button>
+  <button id="__t-down" title="move down">&#9660;</button>
+  <span class="gap"></span>
+  <button id="__t-left" title="wrap text on the right">left</button>
+  <button id="__t-block" title="own line, full width">block</button>
+  <button id="__t-right" title="wrap text on the left">right</button>
+  <span class="gap"></span>
+  <button id="__t-s" title="small">S</button>
+  <button id="__t-m" title="medium">M</button>
+  <button id="__t-l" title="large">L</button>
+  <span class="gap"></span>
   <button id="__t-replace">Replace</button>
-  <button id="__t-alt">Alt text</button>
+  <button id="__t-alt">Alt</button>
   <button id="__t-del">Remove</button>
 </div>
 <div id="__panel">
@@ -315,10 +387,19 @@ EDITOR = """
   <label>masthead glyphs</label><input id="__p-glyphs">
   <label>tagline</label><input id="__p-tagline">
   <label>affiliation line</label><input id="__p-affil">
+  <label>strip caption</label><input id="__p-caption">
   <button id="__p-apply" style="margin-top:10px">Apply to all 7 pages</button>
-  <div class="hint">These three sit outside the editable area because they are
+  <div class="hint">These sit outside the editable area because they are
     duplicated on every page. Changing them here rewrites all seven at once,
     plus the meta description. Save any page edits first.</div>
+  <hr style="border:0;border-top:1px solid #444;margin:12px 0 4px;width:100%">
+  <b>Masthead strip</b>
+  <div id="__b-now" style="font-size:12px;opacity:.7;margin:4px 0"></div>
+  <button id="__b-pick">Choose an image...</button>
+  <button id="__b-ramp" style="margin-top:6px">Back to the cubehelix ramp</button>
+  <div class="hint">Your image is cropped to a 96px band across the page, so
+    pick something that reads at that height. The caption above sits under it
+    and should say what it shows.</div>
 </div>
 <div id="__bar">
   <span>edit:</span>
@@ -411,6 +492,29 @@ EDITOR = """
     fr.readAsDataURL(file);
   }
 
+  /* Put the node where the pointer actually is. Appending to the end of the
+     page, which is what this used to do, is never what anyone means by
+     dropping an image onto a paragraph. */
+  function topBlock(node) {
+    while (node && node.parentNode !== main) node = node.parentNode;
+    return node && node !== main ? node : null;
+  }
+  function insertAt(node, x, y) {
+    var range = null;
+    if (document.caretRangeFromPoint) {
+      range = document.caretRangeFromPoint(x, y);
+    } else if (document.caretPositionFromPoint) {
+      var p = document.caretPositionFromPoint(x, y);
+      if (p) { range = document.createRange(); range.setStart(p.offsetNode, p.offset); }
+    }
+    var el = range ? range.startContainer : document.elementFromPoint(x, y);
+    if (el && el.nodeType === 3) el = el.parentNode;
+    var block = topBlock(el);
+    if (!block) { main.appendChild(node); return; }
+    var r = block.getBoundingClientRect();
+    if (y > r.top + r.height / 2) block.after(node); else block.before(node);
+  }
+
   function askAlt(current) {
     var a = window.prompt(
       'Alt text. Describe the image for someone who cannot see it. ' +
@@ -431,6 +535,55 @@ EDITOR = """
       sel.classList.remove('__sel'); sel = null; tools.classList.remove('on');
     }
   });
+
+  /* The figure is what moves and resizes; a bare img is wrapped so it can. */
+  function unit() {
+    if (!sel) return null;
+    var fig = sel.closest('figure');
+    if (fig) return fig;
+    if (sel.closest('.person')) return null;      /* person photos are fixed */
+    fig = document.createElement('figure');
+    fig.className = 'fig-wide fig-m';
+    sel.parentNode.insertBefore(fig, sel);
+    fig.appendChild(sel);
+    return fig;
+  }
+  function setClass(group, name) {
+    var f = unit(); if (!f) return;
+    group.forEach(function (c) { f.classList.remove(c); });
+    f.classList.add(name);
+    mark(); place();
+  }
+  function place() {                /* keep the toolbar pinned to the image */
+    if (!sel) return;
+    var r = sel.getBoundingClientRect();
+    tools.style.left = Math.round(Math.max(4, r.left)) + 'px';
+    tools.style.top = Math.round(r.bottom + 6) + 'px';
+  }
+  var POS = ['fig-left', 'fig-right', 'fig-wide'];
+  var SIZE = ['fig-s', 'fig-m', 'fig-l'];
+  document.getElementById('__t-left').onclick  = function () { setClass(POS, 'fig-left'); };
+  document.getElementById('__t-right').onclick = function () { setClass(POS, 'fig-right'); };
+  document.getElementById('__t-block').onclick = function () { setClass(POS, 'fig-wide'); };
+  document.getElementById('__t-s').onclick = function () { setClass(SIZE, 'fig-s'); };
+  document.getElementById('__t-m').onclick = function () { setClass(SIZE, 'fig-m'); };
+  document.getElementById('__t-l').onclick = function () { setClass(SIZE, 'fig-l'); };
+
+  document.getElementById('__t-up').onclick = function () {
+    var f = unit() || sel; if (!f) return;
+    var b = topBlock(f); if (b && b.previousElementSibling) {
+      b.parentNode.insertBefore(b, b.previousElementSibling);
+      b.scrollIntoView({block: 'center'}); mark(); place();
+    }
+  };
+  document.getElementById('__t-down').onclick = function () {
+    var f = unit() || sel; if (!f) return;
+    var b = topBlock(f); if (b && b.nextElementSibling) {
+      b.parentNode.insertBefore(b.nextElementSibling, b);
+      b.scrollIntoView({block: 'center'}); mark(); place();
+    }
+  };
+  window.addEventListener('scroll', place);
 
   document.getElementById('__t-replace').addEventListener('click', function () {
     if (!sel) return;
@@ -478,9 +631,10 @@ EDITOR = """
         }
       } else {
         var fig = document.createElement('figure');
+        fig.className = 'fig-wide fig-m';
         fig.innerHTML = '<img src="' + path + '" alt="' + alt.replace(/"/g, '&quot;') +
                         '"><figcaption>caption</figcaption>';
-        main.appendChild(fig);
+        insertAt(fig, e.clientX, e.clientY);
         fig.scrollIntoView({block: 'center'});
       }
     });
@@ -495,7 +649,13 @@ EDITOR = """
       document.getElementById('__p-glyphs').value = j.glyphs;
       document.getElementById('__p-tagline').value = j.tagline;
       document.getElementById('__p-affil').value = j.affil;
+      document.getElementById('__p-caption').value = j.caption;
       panel.classList.add('on');
+    });
+    fetch('/__banner').then(function (r) { return r.json(); }).then(function (b) {
+      document.getElementById('__b-now').textContent =
+        b.kind === 'ramp' ? 'currently: the cubehelix ramp'
+                          : 'currently: ' + b.src;
     });
   });
   document.getElementById('__p-apply').addEventListener('click', function () {
@@ -504,7 +664,8 @@ EDITOR = """
       body: JSON.stringify({
         glyphs: document.getElementById('__p-glyphs').value,
         tagline: document.getElementById('__p-tagline').value,
-        affil: document.getElementById('__p-affil').value
+        affil: document.getElementById('__p-affil').value,
+        caption: document.getElementById('__p-caption').value
       })
     }).then(function (r) { return r.json(); }).then(function (j) {
       if (!j.ok) { st.textContent = 'ERROR: ' + j.error; return; }
@@ -512,6 +673,27 @@ EDITOR = """
       panel.classList.remove('on');
       setTimeout(function () { location.reload(); }, 600);
     });
+  });
+
+  function applyBanner(body) {
+    fetch('/__banner', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body)
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j.ok) { st.textContent = 'ERROR: ' + j.error; return; }
+      st.textContent = 'masthead strip updated on ' + j.changed.length + ' pages';
+      setTimeout(function () { location.reload(); }, 600);
+    });
+  }
+  document.getElementById('__b-pick').addEventListener('click', function () {
+    pickImage(function (f) {
+      upload(f, 'banner', function (path) {
+        applyBanner({src: path, alt: askAlt('')});
+      });
+    });
+  });
+  document.getElementById('__b-ramp').addEventListener('click', function () {
+    applyBanner({ramp: true});
   });
   window.addEventListener('beforeunload', function (e) {
     if (dirty) { e.preventDefault(); e.returnValue = ''; }
@@ -537,10 +719,32 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a):
         pass
 
+    def end_headers(self):
+        # Nothing this server sends may be cached. Editing means style.css and
+        # the images change under the browser's feet, and a cached stylesheet
+        # shows you a stale page while telling you it is the real one, which
+        # defeats the entire point of a what-you-see editor.
+        self.send_header("Cache-Control", "no-store, must-revalidate")
+        super().end_headers()
+
+    def send_header(self, key, value):
+        if key == "Cache-Control" and getattr(self, "_cc_sent", False):
+            return
+        if key == "Cache-Control":
+            self._cc_sent = True
+        super().send_header(key, value)
+
+    def send_response(self, *a, **kw):
+        self._cc_sent = False
+        super().send_response(*a, **kw)
+
     def do_GET(self):
         path = self.path.split("?")[0]
         if path == "/__shared":
             self._json(read_shared())
+            return
+        if path == "/__banner":
+            self._json(read_banner())
             return
         name = path.lstrip("/") or "index.html"
         if name in PAGES:
@@ -577,6 +781,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 req = json.loads(raw)
                 changed = write_shared(req)
                 print(f"  site-wide edit applied to {len(changed)} pages")
+                self._json({"ok": True, "changed": changed})
+            except Exception as e:
+                self._json({"ok": False, "error": str(e)})
+            return
+
+        if self.path == "/__banner":
+            try:
+                req = json.loads(raw)
+                if req.get("ramp"):
+                    changed = restore_ramp()
+                    print(f"  masthead strip back to the cubehelix ramp "
+                          f"({len(changed)} pages)")
+                else:
+                    changed = set_banner(req["src"], req.get("alt", ""))
+                    print(f"  masthead strip -> {req['src']} "
+                          f"({len(changed)} pages)")
                 self._json({"ok": True, "changed": changed})
             except Exception as e:
                 self._json({"ok": False, "error": str(e)})
