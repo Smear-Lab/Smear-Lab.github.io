@@ -7,3 +7,8 @@
 # smaller sources (riley.mat, ion_logo.png) are committed, since they are the
 # records of where the palette and the logo came from and they cost nothing.
 matt_wyoming.png
+
+# Working file for editing the site's words elsewhere. Regenerated on demand
+# from the HTML, which stays the source of truth, so committing it would just
+# create a second copy free to drift out of sync.
+site-copy.md
