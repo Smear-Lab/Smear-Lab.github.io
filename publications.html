@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--
+  ===========================================================================
+  The Smear Lab. Hand-written HTML, no framework, no build step.
+  Every page shares style.css. Edit a page by opening it and typing.
+
+  The masthead and the <nav class="main"> block below are repeated in all
+  seven pages: index, research, people, publications, outreach, join,
+  contact. If you add or rename a nav item, change it in all seven. That
+  duplication is the price of having no build step, and it is a fair price.
+  ===========================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>publications &middot; The Smear Lab</title>
+<meta name="description" content="The Smear Lab at the Institute of Neuroscience, University of Oregon. We study active sensing and olfactory processing.">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="style.css">
+<script>
+  (function () {
+    var c = null;
+    try { c = localStorage.getItem('smear-night'); } catch (e) {}
+    var root = document.documentElement;
+    if (location.hash === '#night' || c === '1') root.className = 'night';
+    else if (c === '0') root.className = '';
+    else root.className = 'auto';   /* follow the operating system */
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">skip to content</a>
+
+<div class="stars" aria-hidden="true">
+  <span style="top:6%;  left:8%;  animation-delay:0s">&#10022;</span>
+  <span style="top:12%; left:88%; animation-delay:0.7s">&#10022;</span>
+  <span style="top:28%; left:4%;  animation-delay:1.4s">&#10022;</span>
+  <span style="top:22%; left:94%; animation-delay:0.4s">&#10022;</span>
+  <span style="top:55%; left:2%;  animation-delay:2s">&#10022;</span>
+  <span style="top:48%; left:96%; animation-delay:1.1s">&#10022;</span>
+  <span style="top:78%; left:6%;  animation-delay:1.8s">&#10022;</span>
+  <span style="top:85%; left:92%; animation-delay:0.2s">&#10022;</span>
+</div>
+
+<header>
+  <svg class="mouse" viewBox="-1 0 21 9" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" aria-hidden="true"><rect x="5" y="0" width="1" height="1"/><rect x="6" y="0" width="1" height="1"/><rect x="4" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="5" y="2" width="1" height="1"/><rect x="6" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="8" y="2" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="5" y="3" width="1" height="1"/><rect x="6" y="3" width="1" height="1"/><rect x="7" y="3" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="9" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="5" y="4" width="1" height="1"/><rect x="6" y="4" width="1" height="1"/><rect x="7" y="4" width="1" height="1"/><rect x="8" y="4" width="1" height="1"/><rect x="9" y="4" width="1" height="1"/><rect x="10" y="4" width="1" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="2" y="5" width="1" height="1"/><rect x="3" y="5" width="1" height="1"/><rect x="4" y="5" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="7" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="9" y="5" width="1" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="11" y="5" width="1" height="1"/><rect x="12" y="5" width="1" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="9" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="11" y="6" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="13" y="6" width="1" height="1"/><rect x="2" y="7" width="1" height="1"/><rect x="3" y="7" width="1" height="1"/><rect x="4" y="7" width="1" height="1"/><rect x="5" y="7" width="1" height="1"/><rect x="6" y="7" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="8" y="7" width="1" height="1"/><rect x="9" y="7" width="1" height="1"/><rect x="10" y="7" width="1" height="1"/><rect x="11" y="7" width="1" height="1"/><rect x="12" y="7" width="1" height="1"/><rect x="13" y="7" width="1" height="1"/><rect x="14" y="7" width="1" height="1"/><rect x="15" y="7" width="1" height="1"/><rect x="16" y="7" width="1" height="1"/><rect x="3" y="8" width="1" height="1"/><rect x="4" y="8" width="1" height="1"/><rect x="5" y="8" width="1" height="1"/><rect x="6" y="8" width="1" height="1"/><rect x="7" y="8" width="1" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="9" y="8" width="1" height="1"/><rect x="10" y="8" width="1" height="1"/><rect x="11" y="8" width="1" height="1"/><rect x="17" y="8" width="1" height="1"/><rect x="18" y="8" width="1" height="1"/></svg>
+  <h1><a href="index.html">The Smear Lab</a></h1>
+  <p class="tagline">active sensing and olfactory processing</p>
+  <p class="affil">Institute of Neuroscience, University of Oregon</p>
+
+  <nav class="main" aria-label="main">
+  <a href="index.html">home</a>
+  <span class="sep">|</span>
+  <a href="research.html">research</a>
+  <span class="sep">|</span>
+  <a href="people.html">people</a>
+  <span class="sep">|</span>
+  <a href="publications.html" aria-current="page">publications</a>
+  <span class="sep">|</span>
+  <a href="outreach.html">outreach</a>
+  <span class="sep">|</span>
+  <a href="join.html">join us</a>
+  <span class="sep">|</span>
+  <a href="contact.html">contact</a>
+  </nav>
+
+  <button id="mode" type="button">[ lights out ]</button>
+</header>
+
+<hr class="cube-rule">
+<p class="cube-caption">&uarr; a cubehelix ramp (Green 2011), start 0.5, rotations &minus;1.5</p>
+
+<main id="main">
+
+<p>A complete and current list lives on
+<a href="https://scholar.google.com/citations?user=nU455D0AAAAJ">Google Scholar</a>
+and on <a href="https://orcid.org/0000-0003-4689-388X">ORCID</a>. Titles below
+link to the publisher via DOI.</p>
+
+<h2>From the lab</h2>
+
+<h3 class="pubyear">2026</h3>
+<ol class="pubs">
+  <li><span class="authors">Blankenship L, Sterrett SC, Martins DM, Findley TM, Abe E, Parker PRL, Niell CM, <b>Smear MC</b>.</span> <a href="https://doi.org/10.64898/2026.03.21.713430">Visualizing and sonifying neurodata (ViSoND) for enhanced observation</a>. <span class="venue">bioRxiv</span>.<span class="tag">preprint</span></li>
+</ol>
+<h3 class="pubyear">2025</h3>
+<ol class="pubs">
+  <li><span class="authors">Welch AC, Gonzales-Hess N, Tarvin TA, Connor J, <b>Smear MC</b>.</span> <a href="https://doi.org/10.1101/2025.07.09.663970">The impact of a psychedelic drug on olfactory search behavior by mice</a>. <span class="venue">bioRxiv</span>.<span class="tag">preprint</span></li>
+  <li><span class="authors">Rafilson S, Gonzales Hess N, Findley TM, <b>Smear MC</b>.</span> <a href="https://doi.org/10.1093/chemse/bjaf026">Challenges in inferring breathing rhythms from olfactory bulb local field potentials</a>. <span class="venue">Chemical Senses</span>.</li>
+</ol>
+<h3 class="pubyear">2024</h3>
+<ol class="pubs">
+  <li><span class="authors">Sterrett SC, Findley TM, Rafilson SE, Brown MA, Weible AP, Marsden R, Tarvin T, Wehr M, Murray JM, Fairhall AL, <b>Smear MC</b>.</span> <a href="https://doi.org/10.7554/eLife.105088.1">Olfactory bulb tracks breathing rhythms and place in freely behaving mice</a>. <span class="venue">eLife</span>.<span class="tag">reviewed preprint</span></li>
+</ol>
+<h3 class="pubyear">2023</h3>
+<ol class="pubs">
+  <li><span class="authors">Parker PRL, Martins DM, Leonard ESP, Casey NM, Sharp SL, Abe ETT, <b>Smear MC</b>, Yates JL, Mitchell JF, Niell CM.</span> <a href="https://doi.org/10.1038/s41593-023-01481-7">A dynamic sequence of visual processing initiated by gaze shifts</a>. <span class="venue">Nature Neuroscience</span>.</li>
+  <li><span class="authors">Brown MA, Zappitelli KM, Singh L, Yuan RC, Bemrose M, Brogden V, Miller DJ, <b>Smear MC</b>, Cogan SF, Gardner TJ.</span> <a href="https://doi.org/10.1038/s41467-023-39152-7">Direct laser writing of 3D electrodes on flexible substrates</a>. <span class="venue">Nature Communications</span>.</li>
+</ol>
+<h3 class="pubyear">2022</h3>
+<ol class="pubs">
+  <li><span class="authors">Miller CT, Gire D, Hoke K, Huk AC, Kelley D, Leopold DA, <b>Smear MC</b>, Theunissen F, Yartsev M, Niell CM.</span> <a href="https://doi.org/10.1016/j.cub.2022.03.031">Natural behavior is the language of the brain</a>. <span class="venue">Current Biology</span>.</li>
+</ol>
+<h3 class="pubyear">2021</h3>
+<ol class="pubs">
+  <li><span class="authors">Findley TM, Wyrick DG, Cramer JL, Brown MA, Holcomb B, Attey R, Yeh D, Monasevitch E, Nouboussi N, Cullen I, Songco JO, King JF, Ahmadian Y, <b>Smear MC</b>.</span> <a href="https://doi.org/10.7554/eLife.58523">Sniff-synchronized, gradient-guided olfactory search by freely moving mice</a>. <span class="venue">eLife</span>.</li>
+</ol>
+<h3 class="pubyear">2020</h3>
+<ol class="pubs">
+  <li><span class="authors">Parker PRL, Brown MA, <b>Smear MC</b>, Niell CM.</span> <a href="https://doi.org/10.1016/j.tins.2020.05.005">Movement-related signals in sensory areas: roles in natural behavior</a>. <span class="venue">Trends in Neurosciences</span>.<span class="tag">review</span></li>
+</ol>
+<h3 class="pubyear">2019</h3>
+<ol class="pubs">
+  <li><span class="authors">Parabucki A, Bizer A, Morris G, Munoz AE, Bala ADS, <b>Smear M</b>, Shusterman R.</span> <a href="https://doi.org/10.1523/ENEURO.0396-18.2019">Odor concentration change coding in the olfactory bulb</a>. <span class="venue">eNeuro</span>.</li>
+</ol>
+<h3 class="pubyear">2018</h3>
+<ol class="pubs">
+  <li><span class="authors">Shusterman R, Sirotin YB, <b>Smear MC</b>, Ahmadian Y, Rinberg D.</span> <a href="https://doi.org/10.1523/ENEURO.0149-18.2018">Sniff invariant odor coding</a>. <span class="venue">eNeuro</span>.</li>
+  <li><span class="authors">Baker KL, Dickinson M, Findley TM, Gire DH, Louis M, Suver MP, Verhagen JV, Nagel KI, <b>Smear MC</b>.</span> <a href="https://doi.org/10.1523/JNEUROSCI.1668-18.2018">Algorithms for olfactory search across species</a>. <span class="venue">Journal of Neuroscience</span>.<span class="tag">review</span></li>
+</ol>
+<h3 class="pubyear">2014</h3>
+<ol class="pubs">
+  <li><span class="authors">Reisert J, Golden GJ, Matsumura K, <b>Smear M</b>, Rinberg D, Gelperin A.</span> <a href="https://doi.org/10.1016/j.jneumeth.2013.09.006">Comparing thoracic and intra-nasal pressure transients to monitor active odor sampling during odor-guided decision making in the mouse</a>. <span class="venue">Journal of Neuroscience Methods</span>.</li>
+</ol>
+<h3 class="pubyear">2013</h3>
+<ol class="pubs">
+  <li><span class="authors"><b>Smear M</b>, Resulaj A, Zhang J, Bozza T, Rinberg D.</span> <a href="https://doi.org/10.1038/nn.3519">Multiple perceptible signals from a single olfactory glomerulus</a>. <span class="venue">Nature Neuroscience</span>.</li>
+  <li><span class="authors">Moore JD, Desch&ecirc;nes M, Furuta T, Huber D, <b>Smear MC</b>, Demers M, Kleinfeld D.</span> <a href="https://doi.org/10.1038/nature12076">Hierarchy of orofacial rhythms revealed through whisking and breathing</a>. <span class="venue">Nature</span>.</li>
+</ol>
+<h3 class="pubyear">2011</h3>
+<ol class="pubs">
+  <li><span class="authors"><b>Smear M</b>, Shusterman R, O'Connor R, Bozza T, Rinberg D.</span> <a href="https://doi.org/10.1038/nature10521">Perception of sniff phase in mouse olfaction</a>. <span class="venue">Nature</span>.</li>
+  <li><span class="authors">Shusterman R, <b>Smear MC</b>, Koulakov AA, Rinberg D.</span> <a href="https://doi.org/10.1038/nn.2877">Precise olfactory responses tile the sniff cycle</a>. <span class="venue">Nature Neuroscience</span>.</li>
+</ol>
+
+<hr class="plain">
+
+<h2>Earlier work</h2>
+<p>Zebrafish vision and synaptic development, from graduate work in the Baier
+lab at UCSF.</p>
+
+<h3 class="pubyear">2007</h3>
+<ol class="pubs">
+  <li><span class="authors"><b>Smear MC</b>, Tao HW, Staub W, Orger MB, Gosse NJ, Liu Y, Takahashi K, Poo MM, Baier H.</span> <a href="https://doi.org/10.1016/j.neuron.2006.12.013">Vesicular glutamate transport at a central synapse limits the acuity of visual perception in zebrafish</a>. <span class="venue">Neuron</span>.</li>
+</ol>
+<h3 class="pubyear">2005</h3>
+<ol class="pubs">
+  <li><span class="authors">Muto A, Orger MB, Wehman AM, <b>Smear MC</b>, Kay JN, Page-McCaw PS, Gahtan E, Xiao T, Nevin LM, Gosse NJ, Staub W, Finger-Baier K, Baier H.</span> <a href="https://doi.org/10.1371/journal.pgen.0010066">Forward genetic analysis of visual behavior in zebrafish</a>. <span class="venue">PLoS Genetics</span>.</li>
+  <li><span class="authors">Hua JY, <b>Smear MC</b>, Baier H, Smith SJ.</span> <a href="https://doi.org/10.1038/nature03409">Regulation of axon growth in vivo by activity-based competition</a>. <span class="venue">Nature</span>.</li>
+</ol>
+<h3 class="pubyear">2004</h3>
+<ol class="pubs">
+  <li><span class="authors">Orger MB, Gahtan E, Muto A, Page-McCaw P, <b>Smear MC</b>, Baier H.</span> <a href="https://doi.org/10.1016/s0091-679x(04)77003-x">Behavioral screening assays in zebrafish</a>. <span class="venue">Methods in Cell Biology</span>.</li>
+</ol>
+<h3 class="pubyear">2000</h3>
+<ol class="pubs">
+  <li><span class="authors">Orger MB, <b>Smear MC</b>, Anstis SM, Baier H.</span> <a href="https://doi.org/10.1038/80649">Perception of Fourier and non-Fourier motion by larval zebrafish</a>. <span class="venue">Nature Neuroscience</span>.</li>
+</ol>
+
+</main>
+
+<footer>
+  <nav aria-label="footer">
+    <a href="research.html">research</a> |
+    <a href="people.html">people</a> |
+    <a href="publications.html">publications</a> |
+    <a href="outreach.html">outreach</a> |
+    <a href="join.html">join us</a> |
+    <a href="contact.html">contact</a>
+  </nav>
+  <p>The Smear Lab, Institute of Neuroscience, University of Oregon.<br>
+  Last updated: July 2026.</p>
+</footer>
+
+<script>
+  /* day/night switch. remembers the choice; "#night" in the URL forces dark. */
+  (function () {
+    var root = document.documentElement;
+    var btn  = document.getElementById('mode');
+    function isNight() {
+      if (root.classList.contains('night')) return true;
+      if (root.classList.contains('auto')) {
+        return window.matchMedia &&
+               window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+      return false;
+    }
+    function label() {
+      btn.textContent = isNight() ? '[ lights on ]' : '[ lights out ]';
+    }
+    label();
+    btn.addEventListener('click', function () {
+      var night = !isNight();
+      root.classList.remove('auto');
+      root.classList.toggle('night', night);
+      try { localStorage.setItem('smear-night', night ? '1' : '0'); } catch (e) {}
+      label();
+    });
+  })();
+</script>
+
+</body>
+</html>
