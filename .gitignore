@@ -14,3 +14,13 @@ matt_wyoming.png
 site-copy.md
 
 __pycache__/
+
+# ---------------------------------------------------------------------------
+# Dropbox collision artifacts. Never commit these; they are sync accidents.
+# BOTH spellings are required. On 2026-07-29 Dropbox named a conflict copy of
+# a .git directory ".git 2", which the "conflicted copy" pattern does not
+# match, and 483 of its files were committed to place-decoding before anyone
+# noticed. Enforced by checks/check_repo_hygiene.py.
+# ---------------------------------------------------------------------------
+*conflicted copy*
+.git [0-9]*
